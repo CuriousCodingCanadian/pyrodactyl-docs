@@ -1,0 +1,162 @@
+---
+title: Installation with Docker
+description: A comprehensive guide for setting up Pyrodactyl using Docker
+---
+
+<Callout type="info">
+  The guides for migration have been moved to a [new page](migrations).
+</Callout>
+
+<Callout type="info">
+  For Pyrodactyl-specific issues, please use [Pyrodactyl GitHub Discussions](https://github.com/pyrohost/pyrodactyl/discussions) or join our Discord community at [https://discord.gg/FGWKZT5dxv](https://discord.gg/FGWKZT5dxv) for support.
+</Callout>
+
+<Callout type="info">
+  Windows is currently only supported for development purposes.
+</Callout>
+
+### Prerequisites
+
+- Linux system with root access
+- [Docker Engine](https://docs.docker.com/engine/install/) and [Docker Compose](https://docs.docker.com/compose/install/) installed
+- Basic Docker and system administration skills
+- Docker auto-start enabled
+
+<Callout type="warn">
+   Do not use Snap-based Docker installations!
+</Callout>
+
+## Installation
+
+1. Create a new directory for your Pyrodactyl installation. This will be the root directory for your Docker containers and configuration files.
+
+   ```bash
+   cd /opt
+   mkdir -p pyrodactyl && cd pyrodactyl
+   ```
+
+2. Download and configure the Docker Compose [template](https://raw.githubusercontent.com/pyrohost/pyrodactyl/main/docker-compose.example.yml).
+   - `x-common` has a set of placeholder values. These values need to be replaced with the corresponding values for your setup.
+   - To use Pyrodactyl with a reverse proxy, you need to change the ports under the `panel` section.
+      - These ports are in the format `host-port:container-port`. Changing the container port is not supported.
+   
+   ```bash
+   wget https://raw.githubusercontent.com/pyrohost/pyrodactyl/main/docker-compose.example.yml -O docker-compose.yml
+   nano docker-compose.yml
+   ```
+
+3. Start Pyrodactyl using Docker Compose.
+
+   ```bash
+   docker compose up -d
+   ```
+
+4. Create an admin user for the panel.
+
+   ```bash
+   docker compose exec panel php artisan p:user:make
+   ```
+
+## Panel Configuration
+
+1. Log into the panel using the user you created in the previous step.
+2. Navigate to the Admin Panel.
+   - Click on the three dots at the top of the left sidebar, then choose "Admin Panel". 
+3. Create a new location.
+
+## Wings Installation
+
+In addition to the Pyrodactyl panel, you'll need Pterodactyl Wings as a backend for your servers. This guide only covers installing one Wings instance, but you can repeat it as many times as needed.
+
+1. Create a new directory for Wings.
+   ```bash
+   cd /opt
+   mkdir -p wings && cd wings
+   ```
+
+2. Download the Dcoker Compose file.
+   ```bash
+   wget https://github.com/pterodactyl/wings/raw/develop/docker-compose.example.yml -O docker-compose.yml
+   ```
+
+3. Start Wings using Docker Compose.
+   ```bash
+   docker compose up -d
+   ```
+
+4. If applicable, allow Wings network access in your firewall:
+   - If using `ufw`:
+     ```bash
+     ufw allow 2022/tcp
+     ufw allow 8080/tcp
+     ```
+   - If using `iptables`:
+     ```bash
+     iptables -A INPUT -p tcp --dport 8080 -j ACCEPT
+     iptables -A INPUT -p tcp --dport 2022 -j ACCEPT
+     ```
+
+## Node Configuration
+
+Once you install Pyrodactyl, you'll need to set up a node to host your servers.
+
+1. Log into the panel using the user you created in the first step (if you're not logged in already).
+
+2. Create a new node.
+   - Set the FQDN to the domain of the server you installed Wings on.
+   - Under "Configuration", set the memory and disk space to the maximum you want to use for your servers.
+
+3. Configure Wings on the node.
+   - Navigate to the Configuration tab (on the left side).
+   - Copy the Configuration File's contents to /etc/pterodactyl/config.yml on the server you installed Wings on.
+   - Set the IP to the IP you want your servers to be accessible from. (Any domain or subdomain you want to use should point to this IP.)
+   - Add allocations for the ports you want to be available for servers.
+   - If you want to show a different IP in the UI (e.g. a subdomain), fill the Alias field with the IP you want to show.
+
+## Post-Installation Steps
+
+### Email Configuration
+
+For features that use email, like password resets, you'll need an SFTP server. You can use any SFTP server, but we recommend using [Maddy](https://maddy.email).
+
+You can configure SFTP settings by navigating to the Admin Panel, then Settings.
+
+### DDoS protection
+
+If you're planning to have your server publicly accessible, your server could be vulnerable to DDoS attacks. If this is a concern for you, consider using a DDoS protection service like [Cloudflare Tunnels](https://www.cloudflare.com/products/tunnel/).
+The goal is to not have your server's IP address on any known domain.
+
+### Troubleshooting
+
+If you can't connect to Pyrodactyl or Wings, you may need to allow their ports in your server's firewall.
+- Pyrodactyl:
+   - `ufw`:
+      ```bash
+      ufw allow 80/tcp
+      ufw allow 443/tcp
+      ```
+   - `iptables`:
+      ```bash
+      iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+      iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+      ```
+- Wings:
+   - `ufw`:
+      ```bash
+      ufw allow 2022/tcp
+      ufw allow 8080/tcp
+      ```
+   - `iptables`:
+      ```bash
+      iptables -A INPUT -p tcp --dport 8080 -j ACCEPT
+      iptables -A INPUT -p tcp --dport 2022 -j ACCEPT
+      ```
+
+## Additional Resources
+
+- [Pyrodactyl GitHub](https://github.com/pyrohost/pyrodactyl)
+- [Pyrodactyl Discord](https://discord.com/invite/RWjHy3Gsqs?utm_campaign=pyrodactyl_support)
+
+- [Pterodactyl Documentation](https://pterodactyl.io/)
+
+- [Docker Documentation](https://docs.docker.com/)

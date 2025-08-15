@@ -18,6 +18,10 @@ description: The Pterodactyl-based game server panel that's faster, smaller, saf
   [discord.gg/FGWKZT5dxv](https://discord.gg/FGWKZT5dxv) for support.
 </Callout>
 
+<Callout type="warn">
+  Windows is currently only supported for development purposes.
+</Callout>
+
 Pyrodactyl is the Pterodactyl-based game server management panel that focuses on performance enhancements, a reimagined, accessible interface, and top-tier developer experience. Builds faster, compiles smaller: Pyrodactyl is the world's best Pterodactyl.
 
 ![Dashboard Image](https://camo.githubusercontent.com/8a481d988dbc0114a0de65318e1688703cac404a0f1d652cbdd992829c3b312b/68747470733a2f2f692e696d6775722e636f6d2f597166674d59732e6a706567)
@@ -34,8 +38,8 @@ Pyrodactyl is the Pterodactyl-based game server management panel that focuses on
 ![Dashboard Image](https://camo.githubusercontent.com/e3c78145a080fa55306a5e788b5e42672935abdcd2fd20bc3d1287cab605afc0/68747470733a2f2f692e696d6775722e636f6d2f6b48484f5736502e6a706567)
 
 <Cards>
-  <Card title="Installation Guide" href="/docs/installation/fresh-installation">
-    Set up Pyrodactyl using Docker installation
+  <Card title="Installation Guide" href="/docs/installation/docker">
+    Set up Pyrodactyl using Docker
   </Card>
   <Card
     title="Installation Guides"
@@ -45,13 +49,13 @@ Pyrodactyl is the Pterodactyl-based game server management panel that focuses on
   </Card>
   <Card
     title="Configuration"
-    href="/docs/installation/fresh-installation#panel-configuration"
+    href="/docs/installation/docker#panel-configuration"
   >
     Learn how to configure your Pyrodactyl instance
   </Card>
   <Card
     title="Wings Setup"
-    href="/docs/installation/fresh-installation#wings-installation"
+    href="/docs/installation/docker#node-configuration"
   >
     Configure Wings as your game server backend
   </Card>
@@ -62,16 +66,12 @@ Pyrodactyl is the Pterodactyl-based game server management panel that focuses on
 
 ## Quick Start
 
-For existing Pterodactyl Docker users, you can quickly switch to Pyrodactyl by updating your panel image:
+For existing Pterodactyl Docker users, you can switch to Pyrodactyl by updating the image in your Docker Compose file:
 
 ```diff
 -image: ghcr.io/pterodactyl/panel:latest
 +image: ghcr.io/pyrohost/pyrodactyl:main
 ```
-
-<Callout type="warn">
-  Windows is currently only supported for development purposes.
-</Callout>
 
 ## License
 

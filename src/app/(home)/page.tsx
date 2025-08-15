@@ -23,33 +23,27 @@ export const metadata: Metadata = {
 const features = [
 	{
 		title: "Built with Vite",
-		description: "Pyrodactyl is built with Vite, the fastest and most reliable build tool for JavaScript.",
-	    icon: <Flame size={23} />
+		description: "Pyrodactyl is built with Vite, the fastest and most reliable build tool for JavaScript."
 	},
 	{
 		title: "Accessibility at the core",
-		description: "Pyro is commited to making our software accessible to everyone. Pyrodactyl is no exception.",
-	    icon: <Accessibility size={23} />
+		description: "Pyro is commited to making our software accessible to everyone. Pyrodactyl is no exception."
 	},
 	{
 		title: "Optimized to pieces",
-		description: "Pyrodactyl builds in less than 150 milliseconds, and renders up to 70% faster than the original panel.",
-	    icon: <Rocket size={23} />
+		description: "Pyrodactyl builds in less than 150 milliseconds, and renders up to 70% faster than the original panel."
 	},
 	{
 		title: "Modern, scalable, and secure",
-		description: "The only outdated aspect of Pyrodactyl is the name. Everything else is absolutely cutting-edge.",
-	    icon: <CircleFadingArrowUp size={23} />
+		description: "The only outdated aspect of Pyrodactyl is the name. Everything else is absolutely cutting-edge."
 	},
 	{
 		title: "Batteries included",
-		description: "It's everything you need, out-of-the-box. There's no need to install plugins or themes.",
-	    icon: <Boxes size={23} />
+		description: "It's everything you need, out-of-the-box. There's no need to install plugins or themes."
 	},
 	{
 		title: "Open source",
-		description: "Pyrodactyl is the first (and only) panel that a company has made its source publicly available.",
-	    icon: <CodeXml size={23} />
+		description: "Pyrodactyl is the only open-source panel created by a hosting provider."
 	},
 ];
 
@@ -57,8 +51,6 @@ const buildTimes = [
 	{ name: "Pyrodactyl (Vite and Turbo)", time: "87 ms", width: "1.145%", highlight: true },
 	{ name: "Pterodactyl v1 (Webpack 4)", time: "35.3 sec", width: "77.7%" },
 	{ name: "Pterodactyl v2 (Webpack 4)", time: "39.42 sec", width: "87.62%" },
-	// Outdated
-	// { name: "Pelican (Webpack 4)", time: "40.9 sec", width: "90.88%" },
 ];
 
 const Page = () => {
@@ -68,7 +60,7 @@ const Page = () => {
 				<div className="relative mx-auto flex h-full w-full container flex-col items-center px-6">
 					<div className="z-10 mx-auto mt-12 flex h-full w-full flex-col items-center justify-between gap-8 lg:flex-row lg:gap-0">
 						<h1 className="w-full font-extrabold text-[max(30px,min(5vw,42px))] leading-[1.2] tracking-[-0.14rem] drop-shadow-xl lg:w-1/2 text-gray-900 dark:text-gray-100">
-							Pyrodactyl is an open, secure, and scalable servers platform
+							Pyrodactyl is an open, secure, and scalable servers platform.
 						</h1>
 						<div className="flex w-full flex-col gap-8 lg:w-1/3 lg:gap-4">
 							<p className="text-gray-600 dark:text-[#ffffffbb] text-[20px] leading-[155%]">
@@ -119,7 +111,7 @@ const Page = () => {
 						{features.map((feature) => (
 							<div key={feature.title} className="col-span-1">
 								<div className="flex flex-col gap-1">
-									<span className="font-bold text-brand text-lg flex">{feature.icon}&nbsp;{feature.title}</span>
+									<span className="font-bold text-brand text-lg flex">{feature.title}</span>
 									<span className="text-gray-600 dark:text-gray-300">{feature.description}</span>
 								</div>
 							</div>
@@ -129,7 +121,7 @@ const Page = () => {
 					<div className="relative chart w-full flex flex-col gap-4">
 						<div className="absolute right-0 top-8 bottom-8 w-0.5 bg-[#ffffff44]" />
 						<div className="absolute -right-4 bottom-0 text-xs opacity-50">45 sec</div>
-						<h1 className="mb-2 max-w-4xl font-extrabold text-[max(30px,min(5vw,42px))] leading-[1.09] tracking-tighter">Build times comparison</h1>
+						<h1 className="mb-2 max-w-4xl font-extrabold text-[max(30px,min(5vw,42px))] leading-[1.09] tracking-tighter">Build time comparison</h1>
 						{buildTimes.map((item) => (
 							<div key={item.name} className="chart-row flex flex-row items-center gap-8 ">
 								<p className="text-sm font-bold whitespace-nowrap w-60">{item.name}</p>
@@ -148,7 +140,7 @@ const Page = () => {
 							iTerm2 with no other applications active. npm v10.8.1.
 						</p>
 						<p className="text-xs max-w-sm opacity-50">
-							<strong>Note:</strong> These benchmarks were done in 2024 and may not represent current build times.
+							<strong>Note:</strong> These benchmarks are as of 2024 and may not represent current build times.
 						</p>
 					</div>
 				</div>

@@ -1,0 +1,36 @@
+---
+title: Docker Update Guide
+description: Guide for upgrading your Docker Pyrodactyl installation
+---
+
+### Prerequisites
+
+- Root on your Linux system
+
+### Update Process
+
+1. Navigate to your Pyrodactyl installation directory.
+  ```bash
+  cd /opt/pyrodactyl
+  ```
+
+2. Stop the panel.
+  ```bash
+  docker compose down
+  ```
+
+3. Download the latest Pyrodactyl release.
+  ```bash
+  docker compose pull
+  ```
+
+4. Start the panel.
+  ```bash
+  docker compose up -d
+  ```
+
+Your Pyrodactyl panel is now up to date! You can verify the update by checking the panel version in the admin area.
+
+<Callout type="info">
+  For Pyrodactyl-specific issues, please use [Pyrodactyl GitHub Discussions](https://github.com/pyrohost/pyrodactyl/discussions) instead of Pterodactyl support channels.
+</Callout>

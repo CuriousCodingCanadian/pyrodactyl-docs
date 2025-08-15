@@ -9,52 +9,66 @@ description: Guide for migrating from native Pterodactyl installation to Pyrodac
 
 - Linux system with root access
 - [Docker Engine](https://docs.docker.com/engine/install/) and [Docker Compose](https://docs.docker.com/compose/install/) installed
-- Docker expertise and basic system administration skills
-- Consider [Portainer](https://docs.portainer.io/start/install) for easier Docker management
-- Avoid using Snap-based Docker installations on Ubuntu
+- Docker experience and basic system administration skills
 - Enable Docker auto-start on boot
 
-### Pyrodactyl Installation
+<Callout type="warn">
+   Do not use Snap-based Docker installations!
+</Callout>
 
-1. Create a new folder (e.g. `pyrodactyl-panel`) on your server in a safe location, and switch to it.
-1. Download and configure the [docker-compose.example.yml](https://raw.githubusercontent.com/pyrohost/pyrodactyl/main/docker-compose.example.yml)
-1. Modify placeholder variables under `x-common`
-1. If you are using built-in HTTPS, add port 443 (to the `ports` section under the `panel` container) and set the `LE_EMAIL` variable (in the `panel` section under `x-common`) to a registered Let's Encrypt email address.
-1. Copy the following environment variables from your Pterodactyl `.env` to your `docker-compose.yml`:
+### Migration
 
-   ```bash
-   APP_KEY
-   APP_URL
-   DB_CONNECTION
-   DB_HOST
-   DB_PORT
-   DB_DATABASE
-   DB_USERNAME
-   DB_PASSWORD
-   HASHIDS_SALT
-   HASHIDS_LENGTH # (if it's not 8)
-   ```
-
-   The following are only applicable if email is set up:
+1. Create a new directory for your Pyrodactyl installation. This will be the root directory for your Docker containers and configuration files.
 
    ```bash
-   MAIL_MAILER
-   MAIL_HOST
-   MAIL_PORT
-   MAIL_USERNAME
-   MAIL_PASSWORD
-   MAIL_ENCRYPTION
-   MAIL_FROM_ADDRESS
-   MAIL_FROM_NAME
-   APP_SERVICE_AUTHOR
-   MAIL_DRIVER
+   mkdir pyrodactyl && cd pyrodactyl
    ```
 
-1. If your database is running on the same machine as your panel, set it to listen on the IP `172.17.0.1`, and change the `DB_HOST` environment variable to `172.17.0.1`.
-1. Rename `docker-compose.example.yml` to `docker-compose.yml`
-1. Run the following command to start the panel:
+2. Download and configure the docker-compose.yml [template](https://raw.githubusercontent.com/pyrohost/pyrodactyl/main/docker-compose.example.yml).
+   - `x-common` has a set of placeholder values. These values need to be replaced with the corresponding values for your setup.
+   - If you intend to use a reverse proxy, you may want to modify the ports in the `panel` section to avoid conflicts with your reverse proxy.
+      - These ports are in the format `host-port:container-port`. You should only change the host port. Do not change the container port.
+   - Copy the following environment variables from your Pterodactyl `.env` to your `docker-compose.yml`:
+
+      ```
+      APP_KEY
+      APP_URL
+      DB_CONNECTION
+      DB_HOST
+      DB_PORT
+      DB_DATABASE
+      DB_USERNAME
+      DB_PASSWORD
+      HASHIDS_SALT
+      HASHIDS_LENGTH (if it's not 8)
+      ```
+
+      The following are only applicable if email is set up:
+
+      ```
+      MAIL_MAILER
+      MAIL_HOST
+      MAIL_PORT
+      MAIL_USERNAME
+      MAIL_PASSWORD
+      MAIL_ENCRYPTION
+      MAIL_FROM_ADDRESS
+      MAIL_FROM_NAME
+      APP_SERVICE_AUTHOR
+      MAIL_DRIVER
+      ```
+   
+   ```bash
+   wget https://raw.githubusercontent.com/pyrohost/pyrodactyl/main/docker-compose.example.yml -O docker-compose.yml
+   ```
+
+3. Set the `LE_EMAIL` variable to a registered Let's Encrypt email address.
+
+<Callout type="warn">
+   If your database is running on the same server as your panel, it has to listen on `172.17.0.1`!
+</Callout>
+
+5. Start the panel.
    ```bash
    docker compose up -d
    ```
-
-Your panel is now running! You can access it at the same URL as before, and use the same user accounts.

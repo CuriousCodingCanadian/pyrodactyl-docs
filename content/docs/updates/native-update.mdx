@@ -1,0 +1,66 @@
+---
+title: Native Update Guide
+description: Guide for upgrading your native Pyrodactyl installation
+---
+
+<Callout type="warn">
+  Before updating Pyrodactyl, make sure to back up your database and panel installation.
+</Callout>
+
+### Prerequisites
+
+- Root on your Linux system
+
+### Update Process
+
+1. Navigate to your Pyrodactyl installation directory.
+  ```bash
+  cd /var/www/pterodactyl
+  ```
+
+2. Stop the panel.
+  ```bash
+  php artisan down
+  ```
+
+3. Download and extract the latest Pyrodactyl release.
+  ```bash
+  curl -L https://github.com/pyrohost/pyrodactyl/releases/latest/download/panel.tar.gz | tar -xzv
+  ```
+
+4. Update your dependencies.
+  ```bash
+  composer install --no-dev --optimize-autoloader
+  ```
+
+5. Clear your application cache.
+  ```bash
+  php artisan view:clear
+  php artisan config:clear
+  ```
+
+6. Migrate your database to the newest version.
+  ```bash
+  php artisan migrate --seed --force
+  ```
+
+7. Set the owner of the installation directory to your webserver user.
+  ```bash
+  chown -R www-data:www-data /var/www/pterodactyl/*
+  ```
+
+8. Restart the queue workers.
+  ```bash
+  php artisan queue:restart
+  ```
+
+9. Start the panel.
+  ```bash
+  php artisan up
+  ```
+
+Your Pyrodactyl panel is now up to date! You can verify the update by checking the panel version in the admin area.
+
+<Callout type="info">
+  For Pyrodactyl-specific issues, please use [Pyrodactyl GitHub Discussions](https://github.com/pyrohost/pyrodactyl/discussions) instead of Pterodactyl support channels.
+</Callout>
